@@ -13,16 +13,17 @@
 #define RESET "\x1B[0m"
 #define clear() printf("\033[H\033[J")
 
-#define RAINDROPS 40
-#define ROWS 20
+#define CALM 200
+#define SOFT 100
+#define HARD 50
 
-void setup(){
+void setup(int speed, int raindrops, int rows){
   int i,j, startY;
 
-  char* matrix[RAINDROPS][ROWS];
+  char* matrix[raindrops][rows];
 
-  for(i=0;i<RAINDROPS;i++){
-    for (j = 0; j < ROWS; j++) {
+  for(i=0;i<raindrops;i++){
+    for (j = 0; j < rows; j++) {
       matrix[i][j] = rand()%2? (rand()%2? " ┋ ": " ┊ ") : "   ";
     }
   }
@@ -32,10 +33,10 @@ void setup(){
 
     printf("%sOne more day to regret...\n",MAG);
 
-    for(i=ROWS;i >= 0;i--){
-      for (j=0; j < RAINDROPS; j++) {
-        printf("%s",matrix[(i+startY) % ROWS][j]);
-        if(rand() % 3 && i==0){
+    for(i=rows;i >= 0;i--){
+      for (j=0; j < raindrops; j++) {
+        printf("%s",matrix[(i+startY) % rows][j]);
+        if(i==startY){
           matrix[i][j] = rand()%2? (rand()%2? " ┋ ": " ┊ ") : "   ";
         }
       }
@@ -43,14 +44,23 @@ void setup(){
     }
 
     clear();
-    usleep(50000);
+    usleep(speed << 10);
     fflush(stdout);
-    startY = startY+1 % ROWS;
+    startY = startY+1 % rows;
   }
 }
 
-int main() {
+int main(int argc, char **argv) {
   clear();
   srand(time(NULL));
-  setup();
+  int a = 40, b = 20;
+  int type = HARD;
+
+  if(argc == 4){
+    a = atoi(argv[1]);
+    b = atoi(argv[2]);
+    type = atoi(argv[3]);
+  }
+  
+  setup(type,a,b);
 }
