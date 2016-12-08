@@ -61,6 +61,8 @@ int main(int argc, char **argv) {
     b = atoi(argv[2]);
     type = atoi(argv[3]);
   }
-  
+
+  if(a <= b) return 0;
+
   setup(type,a,b);
 }

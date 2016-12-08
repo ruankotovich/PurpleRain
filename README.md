@@ -1,5 +1,5 @@
 ### PurpleRain
 
-A simple purple rain program
+My version of the `PurpleRain` challenge.
 
 # 4fun :)
